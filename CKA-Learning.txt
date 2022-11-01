@@ -85,3 +85,40 @@ Both the above commands have their own challenges. While one of it cannot accept
 the other cannot accept a node port. I would recommend going with the `kubectl expose` command. 
 If you need to specify a node port, generate a definition file using the same command and manually 
 input the nodeport before creating the service.
+
+
+
+############################################################################################
+
+>> Labels & selectors <<
+
+To show the labels of kubernetes objects we can use --show-labels flag
+
+# kubectl get pod --show-lables     ! will present all pods with coresponding labels
+
+Or we can display specific objects by using --selector flag
+
+# kubectl get pod --selector env=dev  ! will display all pods with label: env=dev
+
+# kubectl get pod --selector env=prod,bu=finance,teir=frontend
+
+>> Taints & Tolerations <<
+
+- add taint to a node..
+
+# kubectl taint nodes <node-name> <key>=<value>:<taint-effect>
+# kubectl taint nodes minikube app=blue:NoSchedule
+
+- remove taint on node..
+
+# kubectl taint nodes <node-name> <key>=<value>:<taint-effect>-  ! add a hyphen/dash "-" at the end
+# kubectl taint nodes minikube app=blue:NoSchedule-
+
+add tolerations to pods through yaml configuration files
+add the following under spec section..
+<<
+    tolerations:
+    -  key: "app"
+       operator: "Equal"
+       value: "blue"
+       effect: "NoSchedule"

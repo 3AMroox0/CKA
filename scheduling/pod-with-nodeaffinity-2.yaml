@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-with-affinity-2
+  labels:
+    affnty: yeah
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    ports:
+    - containerPort: 3030
+
+  affinity:
+    nodeAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 1
+        preference:
+         matchExpressions:
+         - key: size
+           operator: In
+           values:
+           - small
