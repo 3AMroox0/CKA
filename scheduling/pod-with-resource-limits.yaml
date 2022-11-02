@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-rl
+  labels:
+    type: resource-limits
+
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    ports:
+      - containerPort: 8080
+    resources:
+      requests:
+        cpu: "5m"
+        memory: 1Gi
+      limits:
+        cpu: "10m"
+        memory: 2Gi
+  tolerations:
+  - key: size
+    operator: Equal
+    value: large
+    effect: NoExecute
+
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: size
+            operator: NotIn
+            values:
+            - small
