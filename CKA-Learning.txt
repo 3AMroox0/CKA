@@ -122,3 +122,21 @@ add the following under spec section..
        operator: "Equal"
        value: "blue"
        effect: "NoSchedule"
+
+############################################################################################
+
+Application Lifecycle Management
+
+>> Rollout & Rollback Commands
+
+# Kubectl rollout status deployment <deployment-name>   ! shows the status of the rollout
+
+# Kubectl rollout history deployment <deployment-name>  ! shows the history & revisions of the rollout
+
+# Kubectl rollout undo deployment <deployment-name>     ! rollback to the previos version
+
+
+
+>> Secrets
+
+# echo -n '[value1]' | base64                           ! encode value to base64 
