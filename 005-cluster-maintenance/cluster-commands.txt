@@ -1,0 +1,113 @@
+***************************Cluster Maintenance***************************
+
+when doing a Maintenance and taking a node down for OS Upgrade For example,
+if there are pods on it, it will be terminated and won't be back again when 
+the nodes gets back.. 
+(unless the pod is part of a replicaset or replication controller, in this case 
+the pod will wait for pod-eviction-time ,i.e. 5mins, and then a new pod will be created
+on another node)
+
+we can avoid this behavior by drain the pods, which will terminate current pods on the node 
+and then creates them on another node.
+# Kubectl drain <node-name>
+
+we can make the node unschedulable using 
+# Kubectl cordon <node-name>
+
+we can make it available to scheduling using
+# Kubectl uncordon <node-name>
+
+
+@@ Upgrade Kubernetes Components using Kubeadm
+
+# Kubeadm upgrade plan      !keep in mind, kubeadm doesn't upgrade kubelet. it has to be done manually
+
+1- upgrade kubeadm at first
+# apt-get upgrade kubeadm=1.12.0-00
+
+2- upgrade master
+# kubeadm upgrade apply v12.0.0
+
+3- upgrade kublet 
+# apt-get upgrade kubelet=1.12.0-00
+# systemctl restart kubelet
+
+
+repeate the upgrade process on the worker nodes
+
+# kubectl drain <node-name>           ! drain node first
+# apt-get upgrade kubeadm=1.12.0-00
+# apt-get upgrade kubelet=1.12.0-00
+# kubeadm upgrade node config apply v12.0.0
+# systemctl restart kubelet
+# kubectl uncordon <node-name>
+
+
+
+>>> Backup 
+1- we can use configuration files to deploy the same applications on K8s.
+
+2- another way is to get a backup from the api server using
+    # kubectl get all -A -o yaml > all-deployments.yaml
+
+3- we can use 3rd party tools to do that for us ex: valero
+
+
+>>> ETCD Backup & restore
+
+1- Backup
+# ETCDCTL_API=3 etcdctl\
+    snapshot save <snapshot-name>
+
+
+2- restore
+
+# service kube-apiserver stop      !must stop kube-apiserver
+
+# ETCDCTL_API=3 etcdctl\
+    snapshot restore <snapshot-name> \
+    --data-dir /var/lib/etcd-from-backup
+
+# systemctl daemon-reload
+# service etcd restart
+# service kube-apiserver start 
+
+!!!!reminder!!!!
+
+remember to add these fields when taking snapshots of etcd cluster!!
+
+--endpoints=https://127.0.0.1:2379 \
+--cacert=/etc/etcd/ca.crt \
+--cert=/etc/etcd/etcd-server.crt \
+--key=/etc/etcd/etcd-server.key
+
+
+
+etcdctl snapshot save /opt/snapshot-pre-boot.db \
+--endpoints=https://127.0.0.1:2379 \
+--cacert=/etc/kubernetes/pki/etcd/ca.crt \
+--cert=/etc/kubernetes/pki/etcd/etcd-server.crt \
+--key=/etc/kubernetes/pki/etcd/etcd-server.key
+
+
+
+
+
+
+>> Make sure to switch the context to cluster1:
+
+# kubectl config use-context cluster1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
