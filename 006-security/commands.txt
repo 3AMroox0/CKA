@@ -1,0 +1,29 @@
+** Generate Certificates **
+
+    1-generate a private key using openssl
+
+        # openssl genrsa -out ca.key 2048
+
+    2-use the generated key to generate a certificate signing request
+
+        # openssl req -new -key ca.key -subj "/CN=KUBERNETES-CA" -out ca.csr 
+
+    3-sign the certificate
+
+        # openssl x509 -req -in ca.csr -signkey ca.key -out ca.crt
+
+    ********************************************************************************
+
+    ** Generate Certificate for admin user and sign it with KUBERNETES-CA certificate we created **
+
+    1-generate a private key using openssl
+
+        # openssl genrsa -out admin.key 2048
+
+    2-use the generated key to generate a certificate signing request
+
+        # openssl req -new -key admin.key -subj "/CN=kube-admin" -out admin.csr 
+
+    3-sign the certificate
+
+        # openssl x509 -req -in admin.csr -CA ca.crt -CAKey ca.key -out admin.crt
