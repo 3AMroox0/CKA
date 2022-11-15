@@ -27,3 +27,45 @@
     3-sign the certificate
 
         # openssl x509 -req -in admin.csr -CA ca.crt -CAKey ca.key -out admin.crt
+
+    ********************************************************************************
+
+    ** To View Certificate details **
+
+    1- get the certificate path through pod describe or yaml file or etc
+
+    2- run the following command
+
+        # openssl x509 -in <path-of-the-certificate> -text -noout
+        # opeNSSL X509 -in /etc/kubernetes/pki/apIserver.crt -text -noout
+
+    ********************************************************************************
+
+    ** Certificate API **
+
+    - Instead of Creating certificates for all users & signing them manully, 
+    there is another approach using Certificate API.
+    - Create Certificate signing Request which will include .csr data, after that you can 
+    view all CSRs and approve or deny them.
+
+    1- Get .csr file 
+    2- Convert it to base64 
+        # cat file.csr | base64 -w 0     ! to print it in one single line
+    3- Add it under request attribute in CSR configuration file.
+    4- Create CSR object
+    5- View all CSRs 
+        # kubectl get csr 
+        # kubectl delete csr <csr-name>   ! delete csr request
+
+    6- Approve the CSR request 
+        # kubectl certificate approve <csr-name>
+
+    7- Deny the CSR request 
+        # kubectl certificate Deny <csr-name>
+
+    ********************************************************************************
+
+    ** Config File **
+
+    - View Config File used..
+        # kubectl config view 
