@@ -69,3 +69,73 @@
 
     - View Config File used..
         # kubectl config view 
+    
+    - Get the current context 
+        # kubectl config current-context --kubeconfig <config-file>
+
+    - Specify config file to be used
+        # kubectl config --kubeconfig=/root/my-kube-config
+    
+    - Specify confilg file & context to be used 
+        # kubectl config --kubeconfig=/root/my-kube-config use-context research
+
+
+    ********************************************************************************
+
+    ** Role Based Access Control **
+
+    - get all roles
+        # kubectl get roles
+
+    - get all role bindings
+        # kubectl get rolebindings
+
+    - get more details about a role
+        # kubectl describe role <role-name>
+
+
+    - check access !!
+
+        # kubectl auth can-i  <action>
+        # kubectl auth can-i  create deployments
+        # kubectl auth can-i  delete services
+
+
+        # kubectl auth can-i  create deployments  --as <user-name>  !check access for other users
+        # kubectl auth can-i  delete services  --as dev-user
+
+
+
+    ********************************************************************************
+
+    ** Cluster Roles **
+
+    -Roles for cluster scoped resources. To view all resources run the following commands
+	    # kubectl api-resources
+	    # kubectl api-resources –namespaced=true  ! get the resources of the namespace
+	    # kubectl api-resources –namespaced=false  ! get the rest of resources related to cluster
+
+
+    ********************************************************************************
+
+    ** Service Accounts **
+
+     	A Service Account is an account used by an application to interact with Kubernetes
+        (ex: Prometheus, jenkins)
+
+        - create a service account
+            # kubectl create serviceaccount <serviceaccount-name>
+            # kubectl create serviceaccount prometheus
+
+        - get all Service Accounts
+            # kubectl get serviceaccounts
+
+        - describe Service Accounts
+            # kubectl describe serviceaccount <serviceaccount-name>
+
+        - describe the secret token 
+            # kubectl describe secret <token-name>
+
+        - create token 
+            # kubectl create token <token-name>
+            # kubectl create token dashboard-sa
