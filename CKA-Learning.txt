@@ -140,3 +140,55 @@ Application Lifecycle Management
 >> Secrets
 
 # echo -n '[value1]' | base64                           ! encode value to base64 
+
+################################################################################################
+
+***Easy way to change between namespaces...***
+
+
+
+Kubectx:
+
+With this tool, you don’t have to make use of lengthy “kubectl config” commands to switch between contexts. This tool is particularly useful to switch context between clusters in a multi-cluster environment.
+
+Installation:
+
+sudo git clone https://github.com/ahmetb/kubectx /opt/kubectx
+sudo ln -s /opt/kubectx/kubectx /usr/local/bin/kubectx
+
+Syntax:
+
+To list all contexts:
+
+kubectx
+
+To switch to a new context:
+
+kubectx
+
+To switch back to the previous context:
+
+kubectx –
+
+To see the current context:
+
+kubectx -c
+
+Kubens:
+
+This tool allows users to switch between namespaces quickly with a simple command.
+
+Installation:
+
+sudo git clone https://github.com/ahmetb/kubectx /opt/kubectx
+sudo ln -s /opt/kubectx/kubens /usr/local/bin/kubens
+
+Syntax:
+
+To switch to a new namespace:
+
+kubens
+
+To switch back to previous namespace:
+
+kubens –
