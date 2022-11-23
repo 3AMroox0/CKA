@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-with-vol
+
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+
+    volumeMounts:
+    - name: log-volume
+      mountPath: /log
+
+  volumes:
+  - name: log-volume
+    hostPath:
+      path: /var/log/pod-with-vol
+      type: Directory
