@@ -1,0 +1,53 @@
+-To create a network namespace
+
+    # ip netns add <network-ns-name>
+    # ip netns add red 
+    # ip netns add blue
+
+-To view network namespaces
+
+    # ip netns  
+
+
+-To list interfaces on the host..
+
+    # ip link
+
+-To list interfaces on spicific network namespace
+
+    # ip -n <net-ns-name> link
+    # ip -n red link 
+
+    or 
+
+    # ip netns exec <net-ns-name> ip link
+    # ip netns exec red ip link
+
+
+
+-To view the arp table on host..
+    # arp
+
+-To view the arp table inside a net ns..
+    # ip netns exec red arp
+
+
+-To view the route table on host..
+    # route
+
+-To view the route table inside a net ns..
+    # ip netns exec red route 
+
+
+-Create a virtual link between two net ns & configure ip addresses 
+
+    # ip link add veth-red type veth peer name veth-blue
+
+    # ip link set veth-red netns red 
+    # ip link set veth-blue netns blue
+
+    # ip -n red addr add <ip-address> dev veth-red
+    # ip -n blue addr add <ip-address> dev veth-blue 
+
+    # ip -n red link set veth-red up 
+    # ip -n red link set veth-blue up 

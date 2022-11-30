@@ -1,8 +1,5 @@
-# switch to another name space command
+# switch to another namespace command
 >> kubectl config set-context $(kubectl config current-context) --namespace=dev
-
-
-
 
 
 POD

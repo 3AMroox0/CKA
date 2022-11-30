@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc1
+
+spec: 
+  accessModes:
+  - ReadWriteMany
+
+  resources:
+    requests:
+      storage: 50Mi
+
+  storageClassName: ""    # this prevents pvc from usin default class name & creating new pv for this pvc
