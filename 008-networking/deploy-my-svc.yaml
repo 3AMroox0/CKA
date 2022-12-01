@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deploy
+
+spec:
+  selector:
+    matchLabels:
+      type: backend
+
+  replicas: 3
+
+  template:
+    metadata:
+      name: app1
+      labels:
+        type: backend
+    spec:
+      containers:
+        - image: nginx
+          name: nginx
+
+          ports:
+            - containerPort: 8080
