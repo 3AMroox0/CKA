@@ -1,0 +1,22 @@
+******************************************************************************
+3- Node Troubleshooting
+
+    -view all nodes
+        # kubectl get nodes
+
+    - get node status
+        # kubectl describe node <node-name>
+
+    -check for cpu, ram, disk space on the node
+        # top
+
+        # df -h
+
+    -check the status of the kubelet service
+        # systemctl status kubelet
+
+    -chekc the logs of the kubelet
+        # sudo journalctl -u kubelet
+
+    -check the certificate of the kubelet
+        # openssl x509 -in /var/lib/kubelet/<certificate-name>.crt -text
